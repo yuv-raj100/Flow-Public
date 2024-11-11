@@ -6,6 +6,7 @@ const reminderModel = require('../models/reminderList')
 
 
 const addCustomer = async (req, res) => {
+  
   const { customerName, email, isDue, amount, date } = req.body;
 
   // Validate required fields
@@ -129,9 +130,9 @@ const deleteGroup = async (req, res) => {
 
 
 const getCustomers = async (req, res, next) => {
-  console.log("hi");
   try {
     const email = req.query.email;
+    console.log(email);
     const existingUser = await userModel.findOne({ email });
     if (!existingUser) {
       return res.status(404).json({ message: "User not found" });

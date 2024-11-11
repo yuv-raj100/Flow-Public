@@ -8,7 +8,7 @@ const { saveToken, sendNotification } = require('../firebase/index');
 
 
 
-router.post('/login',login)
+// router.post('/login',login)
 router.post('/register',register)
 router.post('/addCustomer',addCustomer)
 router.get('/getCustomer',getCustomers)

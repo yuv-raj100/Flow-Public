@@ -21,21 +21,23 @@ firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount)
 });
 
-const saveToken  = async (req, res) => {
-  const { token, device } = req.body;
-  console.log(device);
-  const userId=device;
-  if (!token) {
-    return res.status(400).json({ message: "Token is required" });
+const saveToken = async (req, res) => {
+  const { token, device, email } = req.body;
+  const userId = device;
+  // console.log("email"+email)
+  if (!token || !email || !userId) {
+    return res.status(400).json({ message: "Token, device, and email are required" });
   }
 
   try {
-    // Find the document by userId and update the token, or create a new one if it doesn't exist
+    // Find the document by email and update the token and userId, or create a new one if it doesn't exist
     const updatedToken = await Token.findOneAndUpdate(
-      { userId }, // Find by userId if you want each user to have a unique token
-      { token, userId }, // Update or set the token
-      { upsert: true, new: true, setDefaultsOnInsert: true } // Options: create if not found, return new document
+      { email }, // Find by email to ensure the email remains unique
+      { token, userId, email }, // Update token and userId
+      { upsert: true, new: true, setDefaultsOnInsert: true } // Options to create if not found
     );
+
+    // console.log(updatedToken)
 
     res.status(200).json({
       message: "Token registered or updated successfully",
@@ -48,37 +50,33 @@ const saveToken  = async (req, res) => {
 };
 
 
+
 const sendNotification = async (req, res) => {
-  const email="raj@123";
   try {
     const currentDateFormat = new Date();
     const formattedDate = currentDateFormat.toLocaleDateString("en-GB");
     const formattedDateWithHyphens = formattedDate.split("/").join("-");
-    const currentDate = formattedDateWithHyphens; // Get current date in YYYY-MM-DD format
+    const currentDate = formattedDateWithHyphens; // Current date in DD-MM-YYYY format
 
     console.log(`Checking reminders on ${currentDate}`);
 
-    // Fetch all users
-    const users = await Token.find(); // Assuming you have a User model
+    // Fetch all users from Token model
+    const users = await Token.find();
 
-    // Iterate over each user to send notifications
     for (const user of users) {
-      const userId = user.userId; // Get the user's userId
-      const tokenRecord = await Token.findOne({ userId }); // Find the token for this user
+      const { email, token: userToken, userId } = user;
 
-      if (!tokenRecord) {
+      // Skip users without a token
+      if (!userToken) {
         console.error(`No token found for user: ${userId}`);
-        continue; // Skip to the next user if no token found
+        continue;
       }
 
-      const userToken = tokenRecord.token;
-      console.log(`Sending notification to token: ${userToken}`);
+      console.log(`Checking reminders for user: ${email}`);
 
-      // Fetch reminders for the user based on userId (adjust your query accordingly)
+      // Find reminders due today for the specific user
       const reminders = await reminderModel.findOne(
-        {
-          email, // Assuming reminders are stored with userId
-        },
+        { email }, // Filter reminders by user email
         {
           reminders: {
             $filter: {
@@ -90,7 +88,7 @@ const sendNotification = async (req, res) => {
         }
       );
 
-      // Send notifications based on reminders
+      // Check if there are reminders to notify
       if (reminders && reminders.reminders.length > 0) {
         for (const reminder of reminders.reminders) {
           await firebase.messaging().send({
@@ -106,9 +104,11 @@ const sendNotification = async (req, res) => {
               },
             },
           });
+          console.log(
+            `Notification sent to ${email} for reminder: ${reminder.customerName}`
+          );
         }
       } else {
-        // No reminders for the user today
         await firebase.messaging().send({
           token: userToken,
           notification: {
@@ -125,7 +125,7 @@ const sendNotification = async (req, res) => {
       }
     }
 
-    res.send("Notifications sent successfully.");
+    res.send("Notifications sent successfully to users with reminders.");
   } catch (error) {
     console.error("Error checking reminders:", error);
     res.status(500).send("Error sending notifications.");

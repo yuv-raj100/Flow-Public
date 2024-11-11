@@ -125,7 +125,7 @@ const addTransaction = async (req, res) => {
 const deleteTransaction = async (req, res, next) => {
   try {
     const { customerId, transactionId, email } = req.params;
-    console.log(transactionId)
+    // console.log(transactionId)
 
     // Find the customer in the transaction model
     const customer = await transactionModel.findOne({ customerId });

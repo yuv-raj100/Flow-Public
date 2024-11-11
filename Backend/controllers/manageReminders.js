@@ -35,7 +35,7 @@ const getReminders = async (req, res, next) => {
 const changeReminderStatus = async (req, res, next) => {
   const tId  = req.query.tId;
   // console.log(tId);
-  const email = "raj@123"
+  const email = req.query.email
   //   console.log(email);
   const existingUser = await reminderModel.findOne({ email });
   if (!existingUser) {
