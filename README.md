@@ -1,4 +1,5 @@
 Flow App 📱
+
 Flow App is a robust financial management application designed to help users seamlessly track and manage expenses, similar to OkCredit. The app ensures secure user authentication, provides a tabular view of expenses for better organization, and features real-time reminders for financial management.
 
 🌟 Features
@@ -43,14 +44,12 @@ cd flow-app
 
 📷 Screenshots
 
-![image](https://github.com/user-attachments/assets/8b2e95d6-9eb1-4132-8207-d9dd224f29c1)
-
-![image](https://github.com/user-attachments/assets/a5f5b3b6-55ac-41af-bc3b-80cc95f7bdd0)
-
-![image](https://github.com/user-attachments/assets/a50bb33e-7525-46c4-bebe-0e0df3c2ef66)
-
-![image](https://github.com/user-attachments/assets/16df51a9-ef86-4792-bad8-0fefdfb9b76a)
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8b2e95d6-9eb1-4132-8207-d9dd224f29c1" alt="Screenshot 1" width="200"/>
+  <img src="https://github.com/user-attachments/assets/a5f5b3b6-55ac-41af-bc3b-80cc95f7bdd0" alt="Screenshot 2" width="200"/>
+  <img src="https://github.com/user-attachments/assets/a50bb33e-7525-46c4-bebe-0e0df3c2ef66" alt="Screenshot 3" width="200"/>
+  <img src="https://github.com/user-attachments/assets/16df51a9-ef86-4792-bad8-0fefdfb9b76a" alt="Screenshot 4" width="200"/>
+</p>
 
 
 
