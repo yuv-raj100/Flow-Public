@@ -25,7 +25,7 @@ Flow App is a robust financial management application designed to help users sea
   - Notifications: Firebase Cloud Messaging (FCM) for real-time notifications.
   - Task Scheduling: Cron jobs to manage scheduled reminders.
 
-**🌐 Download App:** https://expo.dev/artifacts/eas/dqvpNk1ehw1bTDovKXzB49.apk
+**🌐 Download App:** https://drive.google.com/file/d/1muIxpJax2_pBc171Onp2UK7zj6vEIr8J/view?usp=sharing
 
 📷 Screenshots
 
